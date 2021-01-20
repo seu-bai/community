@@ -11,13 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
  * Created in 2021/01/20 10:34
  */
 @Controller
-public class helloController {
-
-    @GetMapping("/greeting")
-    public String greeting(@RequestParam(name="name",required = false,defaultValue = "World")
-                           String name, Model model){
-        model.addAttribute("name",name);
-        return "greeting";
-
+public class IndexController {
+    @GetMapping("/")
+    public String index(){
+        return "index";
     }
 }
