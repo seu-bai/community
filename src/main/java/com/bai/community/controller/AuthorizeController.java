@@ -51,6 +51,7 @@ public class AuthorizeController {
         if (githubUserDto != null && githubUserDto.getId()!=null) {
             //登陆成功，写session
             User user = new User();
+            user.setAvatarUrl(githubUserDto.getAvatar_url());
             user.setAccountId(String.valueOf(githubUserDto.getId()));
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
