@@ -1,9 +1,15 @@
-package com.bai.community.model;
+package com.bai.community.dto;
 
+import com.bai.community.model.User;
 import lombok.Data;
 
+/**
+ * @Auther: Bai
+ * Description: community
+ * Created in 2021/03/03 9:49
+ */
 @Data
-public class Question {
+public class QuestionDTO {
     private int id;
     private String title;
     private String description;
@@ -13,5 +19,5 @@ public class Question {
     private Integer creator;
     private Integer viewCount;
     private Integer likeCount;
-
+    private User user;
 }
