@@ -1,7 +1,6 @@
 package com.bai.community.controller;
 
 import com.bai.community.mapper.QuestionMapper;
-import com.bai.community.mapper.UserMapper;
 import com.bai.community.model.Question;
 import com.bai.community.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 
@@ -20,17 +18,15 @@ public class PublishController {
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     QuestionMapper questionMapper;
-    @Autowired
-    UserMapper userMapper;
-
     @GetMapping("/publish")
     public String publish() {
         return "publish";
     }
 
     @PostMapping("/publish")
-    public String doPubish(
-            @RequestParam(value = "title", required = false) String title,
+    public String doPublish(
+            @RequestParam(value = "title",
+                    required = false) String title,
             @RequestParam(value = "description", required = false) String description,
             @RequestParam(value = "tag", required = false) String tag,
             HttpServletRequest request,
@@ -51,19 +47,7 @@ public class PublishController {
             return "publish";
         }
 
-        User user = null;
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null && cookies.length != 0)
-        for (Cookie cookie : cookies) {
-            if (cookie.getName().equals("token")) {
-                String token = cookie.getValue();
-                user = userMapper.findByToken(token);
-                if (user != null) {
-                    request.getSession().setAttribute("user", user);
-                }
-                break;
-            }
-        }
+        User user=(User) request.getSession().getAttribute("user");
         if (user == null) {
             model.addAttribute("error", "用户未登录");
             return "publish";
