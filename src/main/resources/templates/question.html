@@ -19,8 +19,14 @@
             <span class="text-desc">
                         作者：<span th:text="${question.user.name}"> </span>
                         &ensp;|&emsp;阅读数：<span th:text="${question.likeCount}"> </span>
-                        &ensp;|&emsp;发布时间：<span
-                    th:text="${#dates.format(question.gmtCreate,'yyyy-MM-dd HH:mm')}"></span>
+                        &ensp;|&emsp;发布时间：
+                <span th:if="${question.gmtModified}!=null">
+                        <span th:text="${#dates.format(question.gmtModified,'yyyy-MM-dd HH:mm')}"></span>
+                        </span>
+                        <span th:if="${question.gmtModified}==null">
+                        <span th:text="${#dates.format(question.gmtCreate,'yyyy-MM-dd HH:mm')}"></span>
+                        </span>
+
             </span>
             <hr >
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:text="${question.description}">

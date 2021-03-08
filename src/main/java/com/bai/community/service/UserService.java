@@ -2,8 +2,11 @@ package com.bai.community.service;
 
 import com.bai.community.mapper.UserMapper;
 import com.bai.community.model.User;
+import com.bai.community.model.UserExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @Auther: Bai
@@ -17,20 +20,27 @@ public class UserService {
     private UserMapper userMapper;
 
     public void createOrUpdate(User user) {
-        User dbUser=userMapper.findByAccountId(user.getAccountId());
-        if (dbUser==null){
+        UserExample userExample = new UserExample();
+        userExample.createCriteria()
+                .andAccountIdEqualTo(user.getAccountId());
+        List<User> users = userMapper.selectByExample(userExample);
+        if (users.size()==0){
             //插入
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
             userMapper.insert(user);
         }else {
             //更新
-            dbUser.setGmtCreate(System.currentTimeMillis());
+            User updateUser=users.get(0);
+            User dbUser=new User();
             dbUser.setGmtModified(user.getGmtCreate());
             dbUser.setName(user.getName());
             dbUser.setAvatarUrl(user.getAvatarUrl());
             dbUser.setToken(user.getToken());
-            userMapper.update(dbUser);
+            UserExample example = new UserExample();
+            example.createCriteria()
+                    .andIdEqualTo(updateUser.getId());
+            userMapper.updateByExampleSelective(dbUser,example);
         }
     }
 }
