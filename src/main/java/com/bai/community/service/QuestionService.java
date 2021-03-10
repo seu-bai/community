@@ -2,6 +2,8 @@ package com.bai.community.service;
 
 import com.bai.community.dto.PaginationDTO;
 import com.bai.community.dto.QuestionDTO;
+import com.bai.community.exception.CustomizeErrorCode;
+import com.bai.community.exception.CustomizeException;
 import com.bai.community.mapper.QuestionMapper;
 import com.bai.community.mapper.UserMapper;
 import com.bai.community.model.Question;
@@ -95,6 +97,9 @@ public class QuestionService {
 
     public QuestionDTO getById(Integer id) {
         Question question=questionMapper.selectByPrimaryKey(id);
+        if (question==null){
+            throw new CustomizeException("你找的问题不在了，换一个试试吧！");
+        }
         QuestionDTO questionDTO = new QuestionDTO();
         BeanUtils.copyProperties(question, questionDTO);
         User user = userMapper.selectByPrimaryKey(question.getCreator());
@@ -118,7 +123,10 @@ public class QuestionService {
             QuestionExample example = new QuestionExample();
             example.createCriteria()
                     .andIdEqualTo(question.getId());
-            questionMapper.updateByExampleSelective(updateQuestion, example);
+            int updated=questionMapper.updateByExampleSelective(updateQuestion, example);
+            if (updated!=1){
+                throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+            }
         }
     }
 }
