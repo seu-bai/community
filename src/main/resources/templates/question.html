@@ -18,7 +18,7 @@
             <h3><span th:text="${question.title}"></span></h3>
             <span class="text-desc">
                         作者：<span th:text="${question.user.name}"> </span>
-                        &ensp;|&emsp;阅读数：<span th:text="${question.likeCount}"> </span>
+                        &ensp;|&emsp;阅读数：<span th:text="${question.viewCount}"> </span>
                         &ensp;|&emsp;发布时间：
                 <span th:if="${question.gmtModified}!=null">
                         <span th:text="${#dates.format(question.gmtModified,'yyyy-MM-dd HH:mm')}"></span>
