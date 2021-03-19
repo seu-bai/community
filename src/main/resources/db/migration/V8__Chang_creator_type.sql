@@ -1,2 +1,2 @@
-alter table question alter column id bigint default  not null;
-alter table `USER` alter column id bigint default  not null;
+alter table question alter column creator bigint default  not null;
+alter table comment alter column commentator bigint default  not null;

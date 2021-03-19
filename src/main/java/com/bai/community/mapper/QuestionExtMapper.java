@@ -5,4 +5,5 @@ import org.apache.ibatis.annotations.Param;
 
 public interface QuestionExtMapper {
     int addViewCount(Question record);
+    int addCommentCount(Question record);
 }
